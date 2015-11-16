@@ -8,7 +8,7 @@ class STACK {
 private:
 	// implementation-dependent code
 public:
-	STACK(max_size);
+	STACK(int);
 	int empty() const;
 	void push(Item item);
 	Item pop();

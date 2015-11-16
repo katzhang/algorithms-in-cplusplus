@@ -15,9 +15,9 @@ private:
 			item = x;
 			next = t;
 		}
-		typedef node* nodeLink;
-		nodeLink head;
 	};
+	typedef node* nodeLink;
+	nodeLink head;
 public:
 	STACK(int) {
 		head = 0;

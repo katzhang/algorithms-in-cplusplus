@@ -1,6 +1,7 @@
 /*
-author: Robert Sedgewick
-PROG: Postfix-expression evaluation
+author: Kat Zhang
+PROG: Extend Programs 4.5 and 4.6 to include 
+the - (subtract) and / (divide) operations
 */
 
 #include <iostream>
@@ -18,8 +19,14 @@ int main(int argc, char *argv[]) {
 		if (a[i] == '+') {
 			save.push(save.pop() + save.pop());
 		}
+		if (a[i] == '-') {
+			save.push(- save.pop() + save.pop());
+		}
 		if (a[i] == '*') {
 			save.push(save.pop() * save.pop());
+		}
+		if (a[i] == '/') {
+			save.push(((float)1 / (float)save.pop()) * save.pop());
 		}
 		if ((a[i] >= '0') && (a[i] <= '9')) {
 			save.push(0);

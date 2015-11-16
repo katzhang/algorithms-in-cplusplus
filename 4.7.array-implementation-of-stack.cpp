@@ -24,4 +24,4 @@ public:
 	Item pop() {
 		return s[--N];
 	}
-}
+};

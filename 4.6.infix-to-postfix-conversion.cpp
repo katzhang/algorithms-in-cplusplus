@@ -5,7 +5,9 @@ PROG: Infix to postfix conversion
 
 #include <iostream>
 #include <string>
-#include "4.4.pushdown-stack-interface.cpp"
+#include "4.7.array-implementation-of-stack.cpp"
+
+using namespace std;
 
 int main(int argc, char *argv[]) {
 	char* a = argv[1];
@@ -16,7 +18,7 @@ int main(int argc, char *argv[]) {
 		if (a[i] == ')') {
 			cout << ops.pop() << " ";
 		}
-		if (a[i] == '+' || a[i] == '*') {
+		if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/') {
 			ops.push(a[i]);
 		}
 		if (a[i] >= '0' && a[i] <= '9') {
