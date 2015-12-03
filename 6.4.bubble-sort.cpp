@@ -13,12 +13,14 @@ template <class Item>
 		A = B;
 		B = t;
 	}
+
 template <class Item>
 	void compexch(Item& A, Item& B) {
 		if (B < A) {
 			exch(A, B);
 		}
 	}
+
 template <class Item>
 	void bubble(Item a[], int left, int right) {
 		for (int i = left; i < right; ++i) {
