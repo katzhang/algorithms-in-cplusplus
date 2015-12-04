@@ -20,12 +20,24 @@ template <class Item>
 		}
 	}
 template <class Item>
-	void sort(Item a[], int left, int right) {
-		for (int i = left + 1; i <= right; ++i) {
-			for (int j = i; j > left; --j) {
-				compexch(a[j - 1], a[j]);
-			}
+	int partition(Item a[] int left, int right) {
+		int i = left - 1, j = right;
+		Item v = a[right]; // Arbitarily choose rightmost element as the partition element
+		for (;;) {
+			while (a[++i] < v);
+			while (a[--j] > v) if (j == left) break;
+			if (i >= j) break;
+			exch(a[i], a[j]);
 		}
+		exch(a[i], a[right]);
+		return i;
+	}
+template <class Item>
+	void quicksort(Item a[], int left, int right) {
+		if (right <= left) return;
+		int i = partition(a, left, right);
+		quicksort(a, left, i - 1);
+		quicksort(a, i + 1, right);
 	}
 
 int main(int argc, char* argv[]) {
