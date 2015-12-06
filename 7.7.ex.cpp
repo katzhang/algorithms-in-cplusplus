@@ -7,6 +7,8 @@ PROG: Quicksort
 
 using namespace std;
 
+int comparison = 0;
+
 template <class Item>
 	void exch(Item& A, Item& B) {
 		Item t = A;
@@ -20,12 +22,20 @@ template <class Item>
 		}
 	}
 template <class Item>
-	int partition(Item a[] int left, int right) {
+	int partition(Item a[], int left, int right) {
 		int i = left - 1, j = right;
 		Item v = a[right]; // Arbitarily choose rightmost element as the partition element
 		for (;;) {
-			while (a[++i] < v);
-			while (a[--j] > v) if (j == left) break;
+			comparison++;
+			while (a[++i] < v) {
+				comparison++;
+			}
+			comparison++;
+			while (a[--j] > v) {
+				if (j == left) break;
+				comparison++;
+			}
+			comparison++;
 			if (i >= j) break;
 			exch(a[i], a[j]);
 		}
@@ -34,6 +44,7 @@ template <class Item>
 	}
 template <class Item>
 	void quicksort(Item a[], int left, int right) {
+		comparison++;
 		if (right <= left) return;
 		int i = partition(a, left, right);
 		quicksort(a, left, i - 1);
@@ -45,7 +56,8 @@ int main(int argc, char* argv[]) {
 	int* a = new int[N];
 	if (sw) {
 		for (i = 0; i < N; ++i) {
-			a[i] = 1000 * (1.0 * rand() / RAND_MAX);
+			// a[i] = 1000 * (1.0 * rand() / RAND_MAX);
+			a[i] = rand() % 2;
 		}
 	} else {
 		N = 0;
@@ -54,9 +66,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	quicksort(a, 0, N - 1);
-	for (i = 0; i < N; ++i) {
-		cout << a[i] << " ";
-	}
+	cout << "comparison: " << comparison << endl;
 	cout << endl;
 }
 

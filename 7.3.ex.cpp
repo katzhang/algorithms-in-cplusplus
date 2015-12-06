@@ -1,6 +1,6 @@
 /*
 author: Robert Sedgewick
-PROG: Quicksort
+PROG: Implement partitioning without using a break statement or a goto statement
 */
 
 #include <iostream>
@@ -20,14 +20,15 @@ template <class Item>
 		}
 	}
 template <class Item>
-	int partition(Item a[] int left, int right) {
+	int partition(Item a[], int left, int right) {
 		int i = left - 1, j = right;
 		Item v = a[right]; // Arbitarily choose rightmost element as the partition element
-		for (;;) {
+		while (i < j && j > left) {
 			while (a[++i] < v);
-			while (a[--j] > v) if (j == left) break;
-			if (i >= j) break;
-			exch(a[i], a[j]);
+			while (a[--j] > v);
+			if (i < j && j > left) {
+				exch(a[i], a[j]);
+			}
 		}
 		exch(a[i], a[right]);
 		return i;
