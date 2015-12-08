@@ -1,6 +1,7 @@
 /*
-author: Robert Sedgewick
-PROG: Quicksort
+author: Kat Zhang
+PROG: Write a program to compute the exact value of CN, and compare 
+the exact value with the approximation 2N ln N, for N = 103, 104, 105,and 106
 */
 
 #include <iostream>

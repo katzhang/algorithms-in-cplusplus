@@ -1,11 +1,17 @@
 /*
-author: Kat Zhang
-PROG: Implement partitioning without using a break statement or a goto statement
+author: Robert Sedgewick
+PROG: Nonrecursive quicksort
 */
 
 #include <iostream>
+#include "4.7.array-implementation-of-stack.cpp"
 
 using namespace std;
+
+inline void push2(STACK<int>& s, int A, int B) {
+	s.push(B);
+	s.push(A);
+}
 
 template <class Item>
 	void exch(Item& A, Item& B) {
@@ -23,22 +29,32 @@ template <class Item>
 	int partition(Item a[], int left, int right) {
 		int i = left - 1, j = right;
 		Item v = a[right]; // Arbitarily choose rightmost element as the partition element
-		while (i < j && j > left) {
+		for (;;) {
 			while (a[++i] < v);
-			while (a[--j] > v);
-			if (i < j && j > left) {
-				exch(a[i], a[j]);
-			}
+			while (a[--j] > v) if (j == left) break;
+			if (i >= j) break;
+			exch(a[i], a[j]);
 		}
 		exch(a[i], a[right]);
 		return i;
 	}
 template <class Item>
 	void quicksort(Item a[], int left, int right) {
-		if (right <= left) return;
-		int i = partition(a, left, right);
-		quicksort(a, left, i - 1);
-		quicksort(a, i + 1, right);
+		STACK<int> s(50);
+		push2(s, left, right);
+		while (!s.empty()) {
+			left = s.pop();
+			right = s.pop();
+			if (right <= left) continue;
+			int i = partition(a, left, right);
+			if (i - left > right - i) {
+				push2(s, left, i - 1);
+				push2(s, i + 1, right);
+			} else {
+				push2(s, i + 1, right);
+				push2(s, left, i - 1);
+			}
+		}
 	}
 
 int main(int argc, char* argv[]) {
