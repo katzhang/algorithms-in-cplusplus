@@ -1,6 +1,8 @@
 /*
-author: Robert Sedgewick
-PROG: Quicksort
+author: Kat Zhang
+PROG: Modify Program 7.1 to return if all keys in the subfile are equal. 
+Compare the performance of your program to Program 7.1 for large random files 
+with keys having t distinct values for t = 2, 5, and 10
 */
 
 #include <iostream>
@@ -21,8 +23,17 @@ template <class Item>
 	}
 template <class Item>
 	int partition(Item a[], int left, int right) {
-		int i = left - 1, j = right;
+		int i = left - 1, j = right, k = right - 1;
 		Item v = a[right]; // Arbitarily choose rightmost element as the partition element
+		bool allEqual = true;
+		while (k-- > i) {
+			if (a[k] != v) {
+				allEqual = false;
+				break;
+			}
+		}
+		if (allEqual) return;
+
 		for (;;) {
 			while (a[++i] < v);
 			while (a[--j] > v) if (j == left) break;

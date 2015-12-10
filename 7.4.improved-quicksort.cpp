@@ -1,11 +1,13 @@
 /*
 author: Robert Sedgewick
-PROG: Quicksort
+PROG: Improved quicksort
 */
 
 #include <iostream>
 
 using namespace std;
+
+static const int M = 2;
 
 template <class Item>
 	void exch(Item& A, Item& B) {
@@ -19,6 +21,24 @@ template <class Item>
 			exch(A, B);
 		}
 	}
+
+template <class Item>
+	void insertion(Item a[], int left, int right) {
+		int i;
+		for (i = right; i > left; --i) {
+			compexch(a[i - 1], a[i]); // Set the sentinel
+		}
+		for (i = left + 2; i <= right; ++i) {
+			int j = i;
+			Item v = a[i];
+			while (v < a[j - 1]) {
+				a[j] = a[j - 1];
+				j--;
+			}
+			a[j] = v;
+		}
+	}
+
 template <class Item>
 	int partition(Item a[], int left, int right) {
 		int i = left - 1, j = right;
@@ -34,10 +54,24 @@ template <class Item>
 	}
 template <class Item>
 	void quicksort(Item a[], int left, int right) {
-		if (right <= left) return;
-		int i = partition(a, left, right);
+		if (right - left <= M) return;
+		exch(a[left + right / 2], a[right - 1]); // exchange middle with second to last
+		compexch(a[left], a[right - 1]);
+		compexch(a[left], a[right]);
+		compexch(a[right - 1], a[right]);
+		int j, N = right - left + 1;
+		for (j = 0; j < N; ++j) {
+			cout << a[j] << " ";
+		}
+		cout << endl;
+		int i = partition(a, left + 1, right - 1);
 		quicksort(a, left, i - 1);
 		quicksort(a, i + 1, right);
+	}
+template <class Item>
+	void hybridsort(Item a[], int left, int right) {
+		quicksort(a, left, right);
+		insertion(a, left, right);
 	}
 
 int main(int argc, char* argv[]) {
@@ -53,7 +87,7 @@ int main(int argc, char* argv[]) {
 			N++;
 		}
 	}
-	quicksort(a, 0, N - 1);
+	hybridsort(a, 0, N - 1);
 	for (i = 0; i < N; ++i) {
 		cout << a[i] << " ";
 	}

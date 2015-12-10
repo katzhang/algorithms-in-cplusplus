@@ -34,7 +34,6 @@ template <class Item>
 			}
 			a[j] = v;
 		}
-
 	}
 template <class Item>
 	void sort(Item a[], int left, int right) {
