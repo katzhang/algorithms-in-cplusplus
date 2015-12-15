@@ -1,6 +1,6 @@
 /*
 author: Robert Sedgewick
-PROG: Improved quicksort
+PROG: Merging
 */
 
 #include <iostream>
@@ -23,20 +23,8 @@ template <class Item>
 	}
 
 template <class Item>
-	void insertion(Item a[], int left, int right) {
-		int i;
-		for (i = right; i > left; --i) {
-			compexch(a[i - 1], a[i]); // Set the sentinel
-		}
-		for (i = left + 2; i <= right; ++i) {
-			int j = i;
-			Item v = a[i];
-			while (v < a[j - 1]) {
-				a[j] = a[j - 1];
-				j--;
-			}
-			a[j] = v;
-		}
+	int operator==(const Item& A, const Item& B) {
+		return !(A < B) && !(A > B);
 	}
 
 template <class Item>
@@ -52,26 +40,28 @@ template <class Item>
 		exch(a[i], a[right]);
 		return i;
 	}
+
 template <class Item>
 	void quicksort(Item a[], int left, int right) {
-		if (right - left <= M) return;
-		exch(a[(left + right) / 2], a[right - 1]); // exchange middle with second to last
-		compexch(a[left], a[right - 1]);
-		compexch(a[left], a[right]);
-		compexch(a[right - 1], a[right]);
-		int j, N = right - left + 1;
-		for (j = 0; j < N; ++j) {
-			cout << a[j] << " ";
+		int k;
+		Item v = a[right];
+		if (right <= left) return;
+		int i = left - 1, j = right, p = left - 1, q = right;
+		for (;;) {
+			while (a[++i] < v);
+			while (a[--j] > v) if (j == left) break;
+			if (i >= j) break;
+			exch(a[i], a[j]);
+			if (a[i] == v) { p++; exch(a[p], a[i]); }
+			if (a[j] == v) { q--; exch(a[q], a[j]); }
 		}
-		cout << endl;
-		int i = partition(a, left + 1, right - 1);
-		quicksort(a, left, i - 1);
-		quicksort(a, i + 1, right);
-	}
-template <class Item>
-	void hybridsort(Item a[], int left, int right) {
-		quicksort(a, left, right);
-		insertion(a, left, right);
+		exch(a[i], a[right]);
+		j = i - 1;
+		i = i + 1;
+		for (k = left; k <= p; k++, j--) exch(a[k], a[j]);
+		for (k = right - 1; k >= q; k--, i++) exch(a[k], a[i]);
+		quicksort(a, left, j);
+		quicksort(a, i, right);
 	}
 
 int main(int argc, char* argv[]) {
@@ -79,7 +69,7 @@ int main(int argc, char* argv[]) {
 	int* a = new int[N];
 	if (sw) {
 		for (i = 0; i < N; ++i) {
-			a[i] = 1000 * (1.0 * rand() / RAND_MAX);
+			a[i] = rand() % 3;
 		}
 	} else {
 		N = 0;
@@ -87,7 +77,7 @@ int main(int argc, char* argv[]) {
 			N++;
 		}
 	}
-	hybridsort(a, 0, N - 1);
+	quicksort(a, 0, N - 1);
 	for (i = 0; i < N; ++i) {
 		cout << a[i] << " ";
 	}
