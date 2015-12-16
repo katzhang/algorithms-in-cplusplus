@@ -1,6 +1,6 @@
 /*
 author: Robert Sedgewick
-PROG: Abstract in-place merge
+PROG: Explain why Program 8.2 is not stable, and develop a version that is stable.
 */
 
 #include <iostream>
@@ -33,6 +33,13 @@ template <class Item>
 			aux[right + middle - j] = a[j + 1];
 		}
 		for (int k = left; k <= right; ++k) {
+			if (i == middle + 1) {
+				a[k] = aux[j--];
+				continue;
+			} else if (j == middle) {
+				a[k] = aux[i++];
+				continue;
+			}
 			if (aux[j] < aux[i]) {
 				a[k] = aux[j--];
 			} else {
