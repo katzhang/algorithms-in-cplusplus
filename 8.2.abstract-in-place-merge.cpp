@@ -1,13 +1,13 @@
 /*
 author: Robert Sedgewick
-PROG: Merging
+PROG: Abstract in-place merge
 */
 
 #include <iostream>
 
 using namespace std;
 
-static const int M = 2;
+static const int maxN = 50;
 
 template <class Item>
 	void exch(Item& A, Item& B) {
@@ -23,18 +23,21 @@ template <class Item>
 	}
 
 template <class Item>
-	void mergeAB(Item c[], Item a[], int N, 
-						   Item b[], int M) {
-		for (int i = 0, j = 0, k = 0; k < M + N; k++) {
-			if (i == N) {
-				c[k] = b[j++];
-				continue;
+	void merge(Item a[], int left, int middle, int right) {
+		int i, j;
+		static Item aux[maxN];
+		for (i = middle + 1; i > left; i--) {
+			aux[i - 1] = a[i - 1];
+		}
+		for (j = middle; j < right; j++) {
+			aux[right + middle - j] = a[j + 1];
+		}
+		for (int k = left; k <= right; ++k) {
+			if (aux[j] < aux[i]) {
+				a[k] = aux[j--];
+			} else {
+				a[k] = aux[i++];
 			}
-			if (j == M) {
-				c[k] = a[i++];
-				continue;
-			}
-			c[k] = (a[i] < b[j]) ? a[i++] : b[j++];
 		}
 	}
 
