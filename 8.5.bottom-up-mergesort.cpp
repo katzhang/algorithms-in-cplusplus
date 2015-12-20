@@ -1,6 +1,7 @@
 /*
 author: Robert Sedgewick
-PROG: Top-down mergesort
+PROG: Bottom-up mergesort: merge smallest remaining files first, 
+passing from left to right through the array
 */
 
 #include <iostream>
@@ -8,6 +9,9 @@ PROG: Top-down mergesort
 using namespace std;
 
 static const int maxN = 50;
+inline int min(int A, int B) {
+	return (A < B) ? A : B;
+}
 
 template <class Item>
 	void exch(Item& A, Item& B) {
@@ -42,12 +46,12 @@ template <class Item>
 	}
 
 template <class Item>
-	void mergesort(Item a[], int left, int right) {
-		if (right <= left) return;
-		int middle = (right + left) / 2;
-		mergesort(a, left, middle);
-		mergesort(a, middle + 1, right);
-		merge(a, left, middle, right);
+	void mergesortBU(Item a[], int left, int right) {
+		for (int m = 1; m <= right - left; m = m + m) {
+			for (int i = left; i <= right - middle; i += m + m) {
+				merge(a, i, i + m - 1, min(i + m + m - 1, right));
+			}
+		}
 	}
 
 int main(int argc, char* argv[]) {
