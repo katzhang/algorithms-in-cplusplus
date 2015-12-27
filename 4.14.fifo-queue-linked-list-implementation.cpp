@@ -27,7 +27,7 @@ public:
 	}
 	void put(Item x) {
 		nodeLink oldTail = tail;
-		tail = new node(x, 0);
+		tail = new node(x);
 		if (head == 0) {
 			head = tail;
 		} else {
