@@ -29,25 +29,28 @@ template <class Item>
 			return head == 0;
 		}
 		void insert(Item item) {
-			node newnode(item, 0);
+			nodeLink oldTail = tail;
+			tail = new node(item, 0);
 			nodeLink p;
-			for (p = head; p != 0; p = p->next) {
-				if (p->item > newnode->item) {
-					prev->next = newnode;
-					newnode->next = p;
-					break;
+			bool newtail = true;
+			if (head == 0) {
+				head = tail;
+			} else {
+				for (p = head; p->next != 0; p = p->next) {
+					if (p->next->item > tail->item) {
+						newtail = false;
+						break;
+					}
 				}
-				prev = p;
+				tail->next = p->next;
+				p->next = tail;
+				if (!newtail) {
+					tail = oldTail;
+				}
 			}
 		}
 		Item getmax() {
-			nodeLink p = head;
-			Item max = head->item;
-			while (p != 0) {
-				if (p->item > max) max = p->item;
-				p = p->next;
-			}
-			return max;
+			return tail->item;
 		}
 	};
 
