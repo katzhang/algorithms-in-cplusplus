@@ -47,7 +47,7 @@ public:
 		N = 0;
 	}
 	int empty() const {
-		N == 0;
+		return N == 0;
 	}
 	void insert(Index v) {
 		pq[++N] = v;
