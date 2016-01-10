@@ -7,7 +7,7 @@ PROG: Binary quicksort
 
 using namespace std;
 
-const int bitsword = 32;
+const int bitsword = 64;
 const int bitsbyte = 8;
 const int bytesword = bitsword / bitsbyte;
 const int R = 1 << bitsbyte;
