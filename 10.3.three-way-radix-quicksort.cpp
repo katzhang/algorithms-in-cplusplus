@@ -1,10 +1,10 @@
 /*
 author: Robert Sedgewick
-PROG: Key-indexed counting
+PROG: Three-way radix quicksort
 */
 
 #include <iostream>
-#define bin(A) left + count[A]
+#define ch(A) digit(A, d)
 
 using namespace std;
 
