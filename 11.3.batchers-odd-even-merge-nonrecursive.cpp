@@ -1,6 +1,6 @@
 /*
 author: Robert Sedgewick
-PROG: Batcher's odd–even merge (recursive version)
+PROG: Batcher's odd-even merge (nonrecursive version)
 */
 
 #include <iostream>
@@ -50,14 +50,13 @@ void unshuffle(Item a[], int left, int right) {
 
 template <class Item>
 void merge(Item a[], int left, int middle, int right) {
-	if (right == left + 1) compexch(a[left], a[right]);
-	if (right < left + 2) return;
-	unshuffle(a, left, right);
-	merge(a, left, (left + middle) / 2, middle);
-	merge(a, middle + 1, (middle + 1 + right) / 2, right);
-	shuffle(a, left, right);
-	for (int i = left + 1; i < right; i += 2) {
-		compexch(a[i], a[i + 1]);
+	int N = right - left + 1; // Assuming N / 2 is middle - left + 1
+	for (int k = N[/]2; k > 0; k /= 2) {
+		for (int j = k % (N / 2); j + k < N; j += k + k) {
+			for (int i = 0; i < k; i++) {
+				compexch(a[left + j + i], a[left + j + k + k]);
+			}
+		}
 	}
 }
 

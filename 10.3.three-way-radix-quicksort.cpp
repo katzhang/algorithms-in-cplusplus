@@ -12,34 +12,51 @@ static const int maxN = 50;
 static const int M = 5;
 
 template <class Item>
-void radixMSD(Item a[], int left, int right, int d) {
-	int i, j, count[R + 1];
-	static Item aux[maxN];
-	if (d > bytesword) return;
-	if (right - left <= M) {
+void quicksortX(Item a[], int left, int right, int d) {
+	int i, j, k, p, q;
+	int v;
+
+	if (right - left <= M) { 
 		insertion(a, left, right);
 		return;
 	}
-	for (j = 0; j < R; j++) {
-		count[j] = 0;
+	v = char(a[r]);
+	i = left - 1;
+	j = right;
+	p = left - 1;
+	q = right;
+
+	while (i < j) {
+		while (ch(a[++i]) < v);
+		while (v < ch(a[--j])) {
+			if (j == left) break;
+		}
+		if (i > j) break;
+		exch(a[i], a[j]);
+		if (ch(a[i]) == v) {
+			p++;
+			exch(a[p], a[i]);
+		}
+		if (ch(a[j]) == v) {
+			q--;
+			exch(a[j], a[q]);
+		}
 	}
-	for (i = left; i <= right; i++) {
-		count[digit(a[i], d) + 1]++;
+	if (p == q) {
+		if (v != '\0') quicksortX(a, left, right, d + 1);
+		return;
 	}
-	for (j = 1; j < R; j++) {
-		count[j] += count[j - 1];
+	if (ch(a[i]) < v) i++;
+	for (k = left; k <= p; k++, j--) {
+		exch(a[k], a[j]);
 	}
-	for (i = left; i <= right; i++) {
-		aux[left + count[digit(a[i], d)]++] = a[i];
+	for (k = right; k >= q; k--, i++) {
+		exch(a[k], a[i]);
 	}
-	for (i = left; i <= right; i++) {
-		a[i] = aux[i];
-	}
-	// radixMSD(a, left, bin(0) - 1, d + 1);
-	radixMSD(a, left, left + count[0] - 1, d + 1);
-	for (j = 0; j < R - 1; j++) {
-		radixMSD(a, bin(j), bin(j + 1) - 1, d + 1);
-	}
+	quicksortX(a, left, j, d);
+	if ((i == right) && (ch(a[i]) == v)) i++;
+	if (v != '\0') quicksortX(a, j + 1, i - 1, d + 1);
+	quicksortX(a, i, r, d);
 }
 
 
