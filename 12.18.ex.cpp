@@ -1,0 +1,61 @@
+/*
+author: Kat Zhang
+PROG: Implement a select operation for our list-based symbol-table implementation 
+(Program 12.6).
+*/
+
+#include <iostream>
+
+using namespace std;
+
+template<class Item, class Key>
+class ST {
+private:
+	Item nullItem;
+	struct node {
+		Item item;
+		node* next;
+		node(Item x, node* t) {
+			item = x;
+			next = t;
+		}
+	};
+	typedef node* nodeLink;
+	int N;
+	nodeLink head;
+	Item searchR(nodeLink t, Key v) {
+		if (t == 0) return nullItem;
+		if (t->item.key() == v) return t->item;
+		return searchR(t->next, v);
+	}
+	Item searchK(nodeLink t, Key v, int k) {
+		if (t == 0) return nullItem;
+		if (t->item.key() == v) {
+
+		}
+	}
+public:
+	ST(int maxN) {
+		head = 0;
+		N = 0;
+	}
+	int count() {
+		return N;
+	}
+	void insert(Item x) {
+		head = new node(x, head);
+		N++;
+	}
+	Item search(Key v) {
+		return searchR(head, v);
+	}
+	Item select(int k) {
+		sort(head);
+		nodeLink p = head;
+		while (k > 0) {
+			k--;
+			p = p->next;
+		}
+	}
+};
+
