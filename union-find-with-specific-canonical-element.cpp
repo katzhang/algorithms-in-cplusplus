@@ -10,7 +10,6 @@ The operations, union(), connected(), and find() should all take logarithmic tim
 
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
@@ -19,7 +18,7 @@ private:
 	int N;
 	vector<int> id;
 	vector<int> size;
-	vector<vector<int> > groups;
+	vector<int> max;
 public:
 	WeightedUnionFind(int);
 	bool connected(int, int);
@@ -29,12 +28,10 @@ public:
 
 WeightedUnionFind::WeightedUnionFind(int n) {
 	N = n;
-	vector<int> self;
 	for (int i = 0; i < N; ++i) {
 		id.push_back(i);
 		size.push_back(1);
-		self.push_back(i);
-		groups.push_back(self);
+		max.push_back(i);
 	}
 }
 
@@ -52,19 +49,20 @@ void WeightedUnionFind::unite(int p, int q) {
 	if (size[i] < size[j]) {
 		id[i] = j;
 		size[j] += size[i];
-		copy(groups[i].begin(), groups[i].end(), back_inserter(groups[j]));
 	} else {
 		id[j] = i;
 		size[i] += size[j];
-		copy(groups[j].begin(), groups[j].end(), back_inserter(groups[i]));
+	}
+
+	if (max[i] > max[j]) {
+		max[j] = max[i];
+	} else {
+		max[i] = max[j];
 	}
 }
 
 int WeightedUnionFind::find(int i) {
-	vector<int>::iterator max;
-	for (; i != id[i]; i = id[i]);
-	max = max_element(groups[i].begin(), groups[i].end());
-	return *max;
+	return max[i];
 }
 
 int main() {
