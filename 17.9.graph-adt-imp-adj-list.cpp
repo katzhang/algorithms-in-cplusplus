@@ -40,10 +40,6 @@ public:
 		if (!digraph) adj[w] = new node(v, adj[w]);
 		Ecnt++;
 	}
-	void remove(Edge e) {}
-	bool edge(int v, int w) const {
-		return adj[v][w];
-	}
 	class adjIterator;
 	friend class adjIterator;
 };

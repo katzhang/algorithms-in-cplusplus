@@ -22,7 +22,7 @@ int main() {
 		if (i == j) {
 			continue;
 		}
-		id[i] == j;
+		id[i] = j;
 		cout << " " << p << " " << q << endl;
 	}
 }
